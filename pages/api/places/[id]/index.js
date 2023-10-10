@@ -10,13 +10,21 @@ export default async function handler(request, response) {
     return;
   }
 
-  
   if (request.method === "GET") {
     const place = await Place.findById(id);
     if (!place) {
       return response.status(404).json({ status: "Not place Found" });
     }
-    response.status(200).json(place);
+    response.status(200).json({ place });
+  }
+
+  if (request.method === "PATCH") {
+    // const placeToPatch = await Place.findByIdAndUpdate(id);
+    // response.status(200).json(placeToPatch);
+    await Place.findByIdAndUpdate(id, {
+      $set: request.body,
+    });
+    response.status(200).json({ status: `Place with id ${id} updated!` });
   }
 
   // const comment = place?.comments;

@@ -45,14 +45,16 @@ export default function DetailsPage() {
     console.log("deleted?");
   }
 
+  console.log("place.image ", place?.image);
+
   return (
     <>
-      <Link href={'/'} passHref legacyBehavior>
+      <Link href={"/"} passHref legacyBehavior>
         <StyledLink justifySelf="start">back</StyledLink>
       </Link>
       <ImageContainer>
         <StyledImage
-          src={place.image}
+          src={place?.image}
           priority
           fill
           sizes="(max-width: 768px) 100vw,
@@ -62,12 +64,12 @@ export default function DetailsPage() {
         />
       </ImageContainer>
       <h2>
-        {place.name}, {place.location}
+        {place?.name}, {place?.location}
       </h2>
-      <Link href={place.mapURL} passHref legacyBehavior>
+      <Link href={place?.mapURL} passHref legacyBehavior>
         <StyledLocationLink>Location on Google Maps</StyledLocationLink>
       </Link>
-      <p>{place.description}</p>
+      <p>{place?.description}</p>
       <ButtonContainer>
         <Link href={`/places/${id}/edit`} passHref legacyBehavior>
           <StyledLink>Edit</StyledLink>
@@ -76,7 +78,7 @@ export default function DetailsPage() {
           Delete
         </StyledButton>
       </ButtonContainer>
-      <Comments locationName={place.name} comments={comments} />
+      <Comments locationName={place?.name} comments={comments} />
     </>
   );
 }
