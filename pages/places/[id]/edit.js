@@ -11,8 +11,6 @@ export default function EditPage() {
   const { data: place, isLoading, error, mutate } = useSWR(`/api/places/${id}`);
 
   async function editPlace(place) {
-    console.log("Place edited (but not really...)");
-
     const response = await fetch(`/api/places/${id}`, {
       method: "PATCH",
       headers: {
