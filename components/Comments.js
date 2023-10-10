@@ -32,7 +32,7 @@ export default function Comments({ locationName, comments }) {
       </FormContainer>
       {comments && (
         <>
-          <h1> {comments.length} fans commented on this place:</h1>
+          <h1> {comments.length} Fans commented on this place:</h1>
           {comments.map(({ name, comment }, idx) => {
             return (
               <>
