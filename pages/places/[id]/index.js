@@ -34,7 +34,7 @@ export default function DetailsPage() {
   const { isReady } = router;
   const { id } = router.query;
   const {
-    data: { place, comments } = {},
+    data: { place } = {},
     isLoading,
     error,
     mutate,
@@ -101,7 +101,7 @@ export default function DetailsPage() {
       </ButtonContainer>
       <Comments
         locationName={place?.name}
-        comments={comments}
+        comments={place.comments}
         onSubmit={handleComment}
       />
     </>
