@@ -17,8 +17,6 @@ export default function EditPage() {
     mutate,
   } = useSWR(`/api/places/${id}`);
 
-  console.log("PLACE IN EDIT ", place);
-
   async function editPlace(place) {
     const response = await fetch(`/api/places/${id}`, {
       method: "PATCH",
