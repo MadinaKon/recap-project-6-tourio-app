@@ -5,7 +5,6 @@ const { Schema } = mongoose;
 const commentSchema = new Schema({
   name: { type: String, required: true },
   comment: { type: String, required: true },
-  // placeId: { type: Schema.Types.ObjectId, ref: "Place", required: true },
 });
 
 const Comment =

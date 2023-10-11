@@ -33,33 +33,12 @@ export default async function handler(request, response) {
       .json({ status: `Place with id ${id} successfully deleted.` });
   }
 
-  // if (request.method === "POST") {
-  //   try {
-  //     const commentData = request.body;
-
-  //     const commentId = await Comment.create({ ...commentData, placeId: id });
-  //     response.status(200).json({ ...commentData, placeId: id });
-
-  //     // await Place.findById(id).populate(comments);
-  //     // const commentId = await Comment.findById(id);
-  //     // get the id of the comment, we don't need a whole commentData object
-  //     const place = await Place.findByIdAndUpdate(id).populate(commentId);
-  //     console.log("commentId  ", commentId);
-  //     console.log("place ", place);
-  //   } catch (error) {
-  //     console.log(error);
-  //     response.status(400).json({ error: error.message });
-  //   }
-  // }
-
   if (request.method === "POST") {
     try {
       const commentData = request.body;
 
       const comment = await Comment.create(commentData);
       response.status(200).json(commentData);
-
-      console.log("comment ", comment);
 
       await Place.findByIdAndUpdate(
         id,
