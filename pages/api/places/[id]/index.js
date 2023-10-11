@@ -34,13 +34,18 @@ export default async function handler(request, response) {
   }
 
   // if (request.method === "POST") {
-  //   const place = await Place.findById(id);
-  //   console.log("COMMENT BE PLACE ", place);
   //   try {
   //     const commentData = request.body;
-  //     await Place.create(commentData);
 
-  //     response.status(200).json({ place: place, comments: comments });
+  //     const commentId = await Comment.create({ ...commentData, placeId: id });
+  //     response.status(200).json({ ...commentData, placeId: id });
+
+  //     // await Place.findById(id).populate(comments);
+  //     // const commentId = await Comment.findById(id);
+  //     // get the id of the comment, we don't need a whole commentData object
+  //     const place = await Place.findByIdAndUpdate(id).populate(commentId);
+  //     console.log("commentId  ", commentId);
+  //     console.log("place ", place);
   //   } catch (error) {
   //     console.log(error);
   //     response.status(400).json({ error: error.message });
@@ -48,34 +53,24 @@ export default async function handler(request, response) {
   // }
 
   if (request.method === "POST") {
-    const place = await Place.findById(id);
     try {
       const commentData = request.body;
 
-      console.log("{ ...commentData, placeId: id } ", {
-        ...commentData,
-        placeId: id,
-      });
+      const comment = await Comment.create(commentData);
+      response.status(200).json(commentData);
 
-      await Comment.create({ ...commentData, placeId: id });
+      console.log("comment ", comment);
 
-      // response.status(200).json({ place: place, comments: comment });
-      response.status(200).json({ ...commentData, placeId: id });
+      await Place.findByIdAndUpdate(
+        id,
+        {
+          $push: { comments: comment._id },
+        },
+        { new: true }
+      );
     } catch (error) {
       console.log(error);
       response.status(400).json({ error: error.message });
     }
   }
-
-  // const comment = place?.comments;
-  // const allCommentIds = comment?.map((comment) => comment.$oid) || [];
-  // const comments = db_comments.filter((comment) =>
-  //   allCommentIds.includes(comment._id.$oid)
-  // );
-
-  // if (!place) {
-  //   return response.status(404).json({ status: "Not found" });
-  // }
-
-  // response.status(200).json({ place: place, comments: comments });
 }
