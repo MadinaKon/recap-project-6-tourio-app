@@ -18,10 +18,22 @@ export default async function handler(request, response) {
     response.status(200).json({ place });
   }
 
+  // if (request.method === "PATCH") {
+  //   await Place.findByIdAndUpdate(id, {
+  //     $set: request.body,
+
+  //   });
+  //   response.status(200).json({ status: `Place with id ${id} updated!` });
+  // }
+
   if (request.method === "PATCH") {
-    await Place.findByIdAndUpdate(id, {
-      $set: request.body,
-    });
+    await Place.findByIdAndUpdate(
+      id,
+      {
+        $set: request.body,
+      },
+      { new: true }
+    );
     response.status(200).json({ status: `Place with id ${id} updated!` });
   }
 
