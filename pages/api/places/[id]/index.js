@@ -1,6 +1,6 @@
-import { db_comments } from "../../../../lib/db_comments";
 import dbConnect from "../../../../db/models/connect";
 import Place from "../../../../db/models/Place";
+import Comment from "../../../../db/models/Comment";
 
 export default async function handler(request, response) {
   await dbConnect();
@@ -19,8 +19,6 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "PATCH") {
-    // const placeToPatch = await Place.findByIdAndUpdate(id);
-    // response.status(200).json(placeToPatch);
     await Place.findByIdAndUpdate(id, {
       $set: request.body,
     });
@@ -33,6 +31,40 @@ export default async function handler(request, response) {
     response
       .status(200)
       .json({ status: `Place with id ${id} successfully deleted.` });
+  }
+
+  // if (request.method === "POST") {
+  //   const place = await Place.findById(id);
+  //   console.log("COMMENT BE PLACE ", place);
+  //   try {
+  //     const commentData = request.body;
+  //     await Place.create(commentData);
+
+  //     response.status(200).json({ place: place, comments: comments });
+  //   } catch (error) {
+  //     console.log(error);
+  //     response.status(400).json({ error: error.message });
+  //   }
+  // }
+
+  if (request.method === "POST") {
+    const place = await Place.findById(id);
+    try {
+      const commentData = request.body;
+
+      console.log("{ ...commentData, placeId: id } ", {
+        ...commentData,
+        placeId: id,
+      });
+
+      await Comment.create({ ...commentData, placeId: id });
+
+      // response.status(200).json({ place: place, comments: comment });
+      response.status(200).json({ ...commentData, placeId: id });
+    } catch (error) {
+      console.log(error);
+      response.status(400).json({ error: error.message });
+    }
   }
 
   // const comment = place?.comments;
