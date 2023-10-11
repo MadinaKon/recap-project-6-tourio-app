@@ -37,6 +37,7 @@ export default function DetailsPage() {
     data: { place, comments } = {},
     isLoading,
     error,
+    mutate,
   } = useSWR(`/api/places/${id}`);
 
   if (!isReady || isLoading || error) return <h2>Loading...</h2>;
@@ -47,6 +48,24 @@ export default function DetailsPage() {
     });
 
     router.push("/");
+  }
+
+  async function handleComment(comment) {
+    try {
+      const response = await fetch(`/api/places/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(comment),
+      });
+
+      if (response.ok) {
+        mutate();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -80,7 +99,11 @@ export default function DetailsPage() {
           Delete
         </StyledButton>
       </ButtonContainer>
-      <Comments locationName={place?.name} comments={comments} />
+      <Comments
+        locationName={place?.name}
+        comments={comments}
+        onSubmit={handleComment}
+      />
     </>
   );
 }
